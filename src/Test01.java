@@ -13,5 +13,6 @@ public class Test01 {
         BigDecimal result = map.values().stream().reduce(BigDecimal.ZERO, (a, b) -> a.add(b));
         System.out.println(result);
         System.out.println("haha");
+        System.out.println("hehe");
     }
 }
