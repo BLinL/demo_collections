@@ -14,5 +14,6 @@ public class Test01 {
         System.out.println(result);
         System.out.println("haha");
         System.out.println("hehe");
+        System.out.println("ok fine");
     }
 }
