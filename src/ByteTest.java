@@ -33,4 +33,24 @@ public class ByteTest {
 
         return bytes;
     }
+
+    public String toStr(byte[] bytes) {
+        if (bytes == null || bytes.length == 0) {
+            return null;
+        }
+        char[] hexDigits = {'0','1','2','3','4','5','6','7','8','9', 'A','B','C','D','E','F'};
+
+        //4位代表一个16进制，所以长度需要变为原来2倍
+        char[] result = new char[bytes.length*2];
+
+        int index = 0;
+        for(byte b:bytes)
+        {
+            //先转换高4位
+            result[index++] = hexDigits[(b>>>4)& 0xf];
+            result[index++] = hexDigits[b& 0xf];
+        }
+        return new String(result);
+    }
+
 }
