@@ -22,7 +22,7 @@ public class FileSplitter {
     }
 
     public static void main(String[] args) {
-        String source = "D:\\work&task\\xms_xls_download\\8月\\sql\\bi_report_stock_detail_m8.sql";
+        String source = "D:\\work&task\\xms_xls_download\\8月\\sql\\bi_report_stock_detail_m81.sql";
         // target folder
         String destination = "D:\\work&task\\xms_xls_download\\8月\\sql\\stock_detail_split";
         new FileSplitter(source, destination).doSplit();
@@ -31,6 +31,7 @@ public class FileSplitter {
     private void doSplit() {
         BufferedReader bufferReader = getReader(source);
         if (bufferReader == null) {
+            System.out.printf("file [%s] is not exists \r\n", source);
             return;
         }
 
@@ -75,8 +76,13 @@ public class FileSplitter {
     }
 
     private boolean changeCurWriter(String newFileName) {
-        this.curWriter = getWriter(newFileName);
-        return this.curWriter == null;
+        BufferedWriter writer = getWriter(newFileName);
+        if (writer == null) {
+            return false;
+        }else {
+            this.curWriter = writer;
+            return true;
+        }
     }
 
     private String setFileName(String fileName) {
@@ -101,9 +107,7 @@ public class FileSplitter {
     private static File getFile(String fileName) throws IOException {
         File file = new File(fileName);
         if (!file.exists()) {
-            if (!file.createNewFile()) {
-                return null;
-            }
+            return null;
         }
         return file;
     }
