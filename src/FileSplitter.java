@@ -22,9 +22,9 @@ public class FileSplitter {
     }
 
     public static void main(String[] args) {
-        String source = "D:\\work&task\\xms_xls_download\\8月\\sql\\bi_report_stock_detail_m81.sql";
+        String source = "D:\\work&task\\xms_xls_download\\9月\\sql\\bi_report_stock_detail_m9.sql";
         // target folder
-        String destination = "D:\\work&task\\xms_xls_download\\8月\\sql\\stock_detail_split";
+        String destination = "D:\\work&task\\xms_xls_download\\9月\\sql\\stock_detail_split";
         new FileSplitter(source, destination).doSplit();
     }
 
@@ -43,7 +43,7 @@ public class FileSplitter {
         // init first file
         int lineNumber = 0;
         String newFileName = setFileName((lineNumber + 1) + "_" + fLine);
-        if(changeCurWriter(newFileName)) {
+        if(!changeCurWriter(newFileName)) {
             return;
         }
 
@@ -56,7 +56,7 @@ public class FileSplitter {
                 if (lineNumber == fLine) {
                     curWriter.close();
                     newFileName =  setFileName((fileIndex * fLine + 1) + "_" + (fileIndex * fLine + fLine));
-                    if(changeCurWriter(newFileName)) {
+                    if(!changeCurWriter(newFileName)) {
                         return;
                     }
                     lineNumber = 0;
@@ -93,12 +93,13 @@ public class FileSplitter {
 
     private static boolean initDestFolder(Path newFilePath) {
         File outDir = newFilePath.toFile();
-        if (!outDir.isDirectory()) {
-            return false;
-        }
         if (!outDir.exists()) {
             if (outDir.mkdir()) {
                 return true;
+            }
+        } else {
+            if (!outDir.isDirectory()) {
+                return false;
             }
         }
         return false;
@@ -128,12 +129,12 @@ public class FileSplitter {
 
     private static BufferedWriter getWriter(String fileName) {
         try {
-            File file = getFile(fileName);
-            if (file == null) {
-                return null;
-            }
+//            File file = getFile(fileName);
+//            if (file == null) {
+//                return null;
+//            }
 
-            return new BufferedWriter(new FileWriter(file));
+            return new BufferedWriter(new FileWriter(fileName));
         } catch (IOException e) {
             System.out.println(e);
             return null;
